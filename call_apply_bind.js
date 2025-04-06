@@ -67,11 +67,9 @@ showNumber();
 // Ensures the function always uses the correct this value.
 // Useful for event handlers, timers, and callbacks.
 
-
 // Use bind() to fix this in event handlers
 // ✅ Use bind() to fix this in callbacks like setTimeout
 // ✅ Helps avoid "undefined" or unexpected this values
-
 
 const restaurant = {
   name: "Gourmet Hub",
@@ -79,38 +77,47 @@ const restaurant = {
   takeOrder(order) {
     console.log(`Order received: ${order} at ${this.name}`);
     this.orders.push(order);
-  }
+  },
 };
 
 let waiter = restaurant.takeOrder; // Assigning function to a variable
 // waiter("Pasta"); // ❌ ERROR: `this.name` is undefined
 
-waiter
+waiter;
 
 // waiter = restaurant.takeOrder.bind(restaurant)
 // waiter('Veg Roll')
 
 // Example with setTimeout, and btn click
+// bind() with setTimeout()
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
 
+setTimeout(greet, 1000); // name is undefined
 
+setTimeout(greet.bind(null, "Aditya"), 1000); // bind() returns new function
 
-// Bind 
+// without bind() method
+setTimeout(() => greet("Bob"), 1000);
 
-// Using call(), we can preset arguments before execution.
+// Bind
+
+// Using bind(), we can preset arguments before execution.
 
 // Example: Reusing a Function with Different Prefixes
 function multiply(x, y) {
-  console.log(x * y);
+  console.log("value log", x * y);
+  return x * y;
 }
 
-// 🔹 Create specialized functions
-const double = multiply.call(null, 2); // Fix `x` as 2
-const triple = multiply.call(null, 3); // Fix `x` as 3
+const double = multiply.bind(null, 2); // preset or pre-configure example
+const triple = multiply.bind(null, 3);
 
-double(5); // Output: 10
-triple(4); // Output: 12
-✅ Use Case: Efficient function reuse by presetting arguments.
+double(5);
+triple(4);
 
+// ✅ Use Case: Efficient function reuse by presetting arguments.
 
 // Some built-in objects, like arguments or NodeList, are not real arrays.
 // We can use call() with Array.prototype.slice() to convert them into real arrays.
@@ -123,4 +130,3 @@ function listItems() {
 
 listItems(1, 2, 3, 4);
 // Output: [1, 2, 3, 4]
-
